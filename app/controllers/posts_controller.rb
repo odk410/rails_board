@@ -1,9 +1,16 @@
 class PostsController < ApplicationController
 
+  before_action :authorize
+
   def index
     #게시글을 모두 보여줄것
     #새글 쓰기 링크 보여줄것
     @posts = Post.all.reverse
+  end
+
+  def show
+      # /posts/show/1 => 1번 글만 보여준다.
+      @post = Post.find(params[:id])
   end
 
   def new
@@ -14,6 +21,8 @@ class PostsController < ApplicationController
   def create
 
     Post.create(
+      #현재접속한 유저의 아이디
+      user_id: current_user.id,
       title: params[:title],
       content: params[:content]
     )
@@ -45,4 +54,16 @@ class PostsController < ApplicationController
     )
     redirect_to '/'
   end
+
+  def add_comment
+    Comment.create(
+      user_id: current_user.id,
+      content: params[:content],
+      post_id: params[:id]
+    )
+    # 댓글 작성하고 원래 작성하던 페이지로 가는 것 show를 사용하려면 아이디를 또 받아와야 하기 때문에 귀찮다
+    # redirect_to "/posts/show/#{params[:id]}"
+    redirect_to :back
+  end
+
 end

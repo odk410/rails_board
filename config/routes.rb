@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+  get '/login' => 'users#login'
+  get '/login_session' => 'users#login_session'
+  get '/logout' => 'users#logout'
+  get '/signup' => 'users#signup'
+  get '/register' => 'users#register'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -11,6 +18,9 @@ Rails.application.routes.draw do
   get '/posts/destroy/:id' => 'posts#destroy'
   get '/posts/edit/:id' => 'posts#edit'
   get '/posts/update/:id' => 'posts#update'
+
+  get '/posts/:id/add_comment' => 'posts#add_comment'
+  get '/posts/show/:id' => 'posts#show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
